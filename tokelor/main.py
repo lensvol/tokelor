@@ -56,7 +56,7 @@ def display_tokens(source: str, show_newlines: bool = False):
 
 @click.command()
 @click.argument("source", type=click.File("r"))
-@click.option("--nl/--no-nl", default=False)
+@click.option("--nl/--no-nl", default=False, help='Display newline tokens.')
 def main(source, nl):
     """
     Visualize Python token stream produced by tokenize module.
