@@ -34,7 +34,9 @@ def display_tokens(source: str, show_newlines: bool = False):
                 prefix = cur_line
                 highlighted = "\\n"
         elif type_name in ("INDENT", "DEDENT"):
-            highlighted = ("=" * (end_pos - 2)) + "\u21d2 "
+            # There may be no indentation at all on the previous level
+            if end_pos > 0:
+                highlighted = ("=" * (end_pos - 2)) + "\u21d2 "
             suffix = cur_line[end_pos:]
         else:
             prefix = cur_line[:start_pos]
