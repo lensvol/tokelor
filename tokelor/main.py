@@ -5,7 +5,7 @@ import click
 from colorama import init as init_colorama, Style
 
 
-def display_tokens(source: str, show_newlines: bool = False):
+def display_tokens(source: str, show_newlines: bool = False, bare: bool = False):
     io_stream = io.StringIO(source)
     lines = source.split("\n")
 
@@ -20,10 +20,9 @@ def display_tokens(source: str, show_newlines: bool = False):
                 "{:>5}:".format(line_index),
                 "[{:^11}]".format(type_name),
                 "| {:>3} - {:<3} |".format(start_pos, end_pos),
+                "",
             ]
         )
-
-        print(token_info, end=" ")
 
         prefix, highlighted, suffix = "", "", ""
 
@@ -43,26 +42,36 @@ def display_tokens(source: str, show_newlines: bool = False):
             highlighted = cur_line[start_pos:end_pos]
             suffix = cur_line[end_pos:]
 
-        print(
-            "".join(
-                [
-                    Style.DIM + prefix + Style.NORMAL,
-                    Style.BRIGHT + highlighted + Style.NORMAL,
-                    Style.DIM + suffix + Style.NORMAL,
-                ]
+        if not bare:
+            print(
+                "".join(
+                    [
+                        token_info,
+                        Style.DIM + prefix + Style.NORMAL,
+                        Style.BRIGHT + highlighted + Style.NORMAL,
+                        Style.DIM + suffix + Style.NORMAL,
+                    ]
+                )
             )
-        )
+        else:
+            print("".join([token_info, prefix, highlighted, suffix]))
+            if highlighted:
+                print(" " * (len(token_info) + len(prefix)), end="")
+                print("^" * len(highlighted))
 
 
 @click.command()
 @click.argument("source", type=click.File("r"))
-@click.option("--nl/--no-nl", default=False, help='Display newline tokens.')
-def main(source, nl):
+@click.option("--nl/--no-nl", default=False, help="Display newline tokens.")
+@click.option(
+    "--bare/--no-bare", default=False, help="Replace bold text with underlinings."
+)
+def main(source, nl, bare):
     """
     Visualize Python token stream produced by tokenize module.
     """
     init_colorama()
-    display_tokens(source.read(), show_newlines=nl)
+    display_tokens(source.read(), show_newlines=nl, bare=bare)
 
 
 if __name__ == "__main__":
