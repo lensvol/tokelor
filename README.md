@@ -2,13 +2,6 @@
 
 Visualize Python token stream produced by tokenize module.
 
-## Getting started
-
-```shell script
-# git clone git@github.com:lensvol/tokelor.git
-# poetry install --develop
-```
-
 ## Example
 
 ![Example usage](https://raw.githubusercontent.com/lensvol/tokelor/master/docs/example.png)
@@ -26,10 +19,22 @@ Options:
   --help              Show this message and exit.
 ```
 
+## Installation
+
+```shell script
+# pip install tokelor
+```
+
+## Getting started with development
+
+```shell script
+# git clone git@github.com:lensvol/tokelor.git
+# poetry install --develop
+```
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
-
 
 ## Authors
 
