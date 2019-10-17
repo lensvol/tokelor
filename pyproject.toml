@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tokelor"
-version = "0.1.1"
+version = "0.1.2"
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/lensvol/tokelor"
@@ -24,12 +24,9 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.6"
 colorama = "^0.4.1"
 click = "^7.0"
-
-[tool.poetry.dev-dependencies]
-pytest = "^3.0"
 
 [tool.poetry.scripts]
 tokelor = 'tokelor.main:main'
