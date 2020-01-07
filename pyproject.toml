@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tokelor"
-version = "0.1.4"
+version = "0.1.5"
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/lensvol/tokelor"
@@ -29,7 +29,7 @@ click = "^7.0"
 colorama = ">=0.4,<0.5"
 
 [tool.poetry.scripts]
-tokelor = 'tokelor.main:main'
+tokelor = 'tokelor.cli:main'
 
 [build-system]
 requires = ["poetry>=0.12"]
