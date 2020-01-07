@@ -75,4 +75,4 @@ def main(source, nl, bare):
 
 
 if __name__ == "__main__":
-    main()
+    main([])
