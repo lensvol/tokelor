@@ -1,4 +1,8 @@
 # tokelor
+![PyPI](https://img.shields.io/pypi/v/tokelor) 
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/tokelor)
+![License](https://img.shields.io/github/license/lensvol/tokelor)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Visualize Python token stream produced by tokenize module.
 
