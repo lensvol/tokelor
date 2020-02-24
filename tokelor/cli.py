@@ -30,8 +30,9 @@ def display_tokens(source: str, show_newlines: bool = False, bare: bool = False)
             highlighted = "<EOF>"
         elif type_name in ("NEWLINE", "NL"):
             if show_newlines:
-                prefix = cur_line
-                highlighted = "\\n"
+                prefix = cur_line.strip()
+                highlighted = token.string.replace("\r", "\\r")
+                highlighted = highlighted.replace("\n", "\\n")
         elif type_name in ("INDENT", "DEDENT"):
             # There may be no indentation at all on the previous level
             if end_pos > 0:
@@ -61,17 +62,18 @@ def display_tokens(source: str, show_newlines: bool = False, bare: bool = False)
 
 
 @click.command()
-@click.argument("source", type=click.File("r"))
+@click.argument("source_path", type=click.Path(exists=True))
 @click.option("--nl/--no-nl", default=False, help="Display newline tokens.")
 @click.option(
     "--bare/--no-bare", default=False, help="Replace bold text with underlinings."
 )
-def main(source, nl, bare):
+def main(source_path, nl, bare):
     """
     Visualize Python token stream produced by tokenize module.
     """
     init_colorama()
-    display_tokens(source.read(), show_newlines=nl, bare=bare)
+    with open(source_path, "r", newline="") as source:
+        display_tokens(source.read(), show_newlines=nl, bare=bare)
 
 
 if __name__ == "__main__":
