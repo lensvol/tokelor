@@ -5,6 +5,10 @@ import click
 from colorama import init as init_colorama, Style
 
 
+def quote_crlf(string: str) -> str:
+    return string.replace("\r", "\\r").replace("\n", "\\n")
+
+
 def display_tokens(source: str, show_newlines: bool = False, bare: bool = False):
     io_stream = io.StringIO(source)
     lines = source.split("\n")
@@ -28,11 +32,13 @@ def display_tokens(source: str, show_newlines: bool = False, bare: bool = False)
 
         if type_name == "ENDMARKER":
             highlighted = "<EOF>"
+        if type_name == "ERRORTOKEN":
+            prefix, suffix = cur_line[0:start_pos], cur_line[end_pos:]
+            highlighted = cur_line[start_pos:end_pos]
         elif type_name in ("NEWLINE", "NL"):
             if show_newlines:
-                prefix = cur_line.strip()
-                highlighted = token.string.replace("\r", "\\r")
-                highlighted = highlighted.replace("\n", "\\n")
+                prefix = quote_crlf(cur_line[:start_pos])
+                highlighted = quote_crlf(token.string)
         elif type_name in ("INDENT", "DEDENT"):
             # There may be no indentation at all on the previous level
             if end_pos > 0:
@@ -42,6 +48,10 @@ def display_tokens(source: str, show_newlines: bool = False, bare: bool = False)
             prefix = cur_line[:start_pos]
             highlighted = cur_line[start_pos:end_pos]
             suffix = cur_line[end_pos:]
+
+        prefix = quote_crlf(prefix)
+        highlighted = quote_crlf(highlighted)
+        suffix = quote_crlf(suffix)
 
         if not bare:
             print(
